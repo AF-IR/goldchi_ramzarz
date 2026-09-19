@@ -1,0 +1,20 @@
+name: Daily Crypto Price Bot (USD)
+
+on:
+  schedule:
+    - cron: '30 5 * * *'   # ۹ صبح به وقت ایران
+  workflow_dispatch:
+
+jobs:
+  send-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
+          BALE_CHANNEL_ID: ${{ secrets.BALE_CHANNEL_ID }}
+        run: python main.py
